@@ -1,5 +1,5 @@
-.App {
-  /* text-align: center; */
+* {
+  color: #000000;
 }
 
 .sb-container:not(.sb-expanded) {
@@ -13,7 +13,7 @@
   display: flex;
   flex-direction: column;
   align-content: stretch;
-  margin: 0;
+  margin: 20px;
   padding: 0;
   border: 0;
   font-size: 100%;
@@ -45,7 +45,7 @@
   .sb-container {
     flex-direction: row-reverse;
     max-width: 1080px;
-    margin: 0 auto;
+    margin: 10vh auto;
   }
 }
 
@@ -73,14 +73,28 @@
   padding-bottom: 103.9230484542%;
 }
 
+
+.cell-input{
+  font-weight: 700;
+  font-size: 1.875em;
+  text-anchor: middle;
+  text-transform: uppercase;
+  pointer-events: none;
+  color: #000000;
+}
+
 .hive-cell {
   position: absolute;
   top: 33.3333333333%;
   left: 30%;
   width: 40%;
   height: 33.3333333333%;
-  filter: invert(79%) sepia(74%) saturate(1%) hue-rotate(40deg) brightness(97%)
-    contrast(103%);
+}
+
+.hive-cell .cell-fill {
+  cursor: pointer;
+  fill: #e6e6e6;
+  transition: all 100ms;
 }
 
 .hive-cell:nth-child(1) {
@@ -109,12 +123,16 @@
 
 .hive-cell:nth-child(7) {
   transform: translate(0, 0);
-  filter: invert(92%) sepia(46%) saturate(7491%) hue-rotate(333deg)
-    brightness(97%) contrast(100%);
 }
 
+.hive-cell:nth-child(7) .cell-fill {
+  transform: translate(0, 0);
+  fill: #f7da21;
+}
+
+
 @media (min-width: 768px) {
-  .sb-status-box, .sb-wordlist-box, .sb-wordlist-drawer {
+  .sb-status-box, .sb-wordlist-box, .sb-wordlist-list {
     display: flex;
     flex-direction: column;
   }
@@ -152,14 +170,13 @@
   }
 }
 .sb-wordlist-list {
-  overflow: hidden;
-  max-height: 0;
+  height: 100%;
   transition: max-height 200ms ease;
 }
 
 .pz-desktop .sb-wordlist-window {
+  height: 100%;
   position: relative;
-  overflow: hidden;
   height: calc(var(--vh, 1vh)*64);
 }
 @media (min-width: 768px) {
@@ -173,36 +190,40 @@
     margin-left: 25px;
   }
 }
-.sb-wordlist-pag {
-  position: relative;
-  margin-left: 20px;
-  display: flex;
-  height: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
-  z-index: 0;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  scroll-margin: 0;
-  scroll-behavior: smooth;
-  overscroll-behavior: contain;
-}
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
-  margin: 0;
-    margin-left: 0px;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
-}
+
 *, ::before, ::after {
   box-sizing: inherit;
 }
 .sb-wordlist-box {
   letter-spacing: .005em;
+}
+
+@media (min-width: 768px) {
+  .sb-wordlist-summary, .sb-recent-words-wrap {
+    padding: 0 25px;
+  }
+}
+@media (min-width: 768px) {
+  .sb-wordlist-summary {
+    top: 0;
+    opacity: 1;
+  }
+}
+.sb-wordlist-summary {
+  display: flex;
+  align-items: center;
+  top: -45px;
+  height: 45px;
+  opacity: 0;
+  font-size: 1em;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.sb-wordlist-summary, .sb-recent-words-wrap {
+  padding: 0 20px;
+  position: relative;
+  transition: all 270ms ease;
 }
 
 @media (min-width: 768px) {
@@ -221,6 +242,8 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
 ol, ul {
   list-style: none;
 }
+
+
 
 .sb-anagram {
   text-transform: capitalize;
@@ -266,7 +289,7 @@ ol, ul {
 }
 
 .App-main {
-  background-color: green;
+  background-color: #ffffff;
   height: 80vh;
   display: flex;
   flex-direction: column;
@@ -277,7 +300,7 @@ ol, ul {
 }
 
 .App-footer {
-  background-color: red;
+  background-color: #282c34;
   min-height: 10vh;
   display: flex;
   flex-direction: column;

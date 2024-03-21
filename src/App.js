@@ -47,7 +47,37 @@ function Hive() {
 function HiveCell() {
   return (
     <>
-      <img src={hexCell} className="hive-cell" alt="v" />
+      <svg
+        className="hive-cell outer"
+        viewBox="0 0 120 103.92304845413263"
+        data-testid="hive-cell-outer"
+      >
+        <polygon
+          className="cell-fill"
+          points="0,51.96152422706631 30,0 90,0 120,51.96152422706631 90,103.92304845413263 30,103.92304845413263"
+          stroke="white"
+          strokeWidth="7.5"
+          data-testid="cell-fill"
+        ></polygon>
+        <input
+          className="cell-input"
+          type="text"
+          maxLength="1"
+          placeholder="t"
+          x="50%"
+          y="50%"
+          dy="0.35em"
+        />
+        <text
+          class="cell-letter"
+          x="50%"
+          y="50%"
+          dy="0.35em"
+          data-testid="cell-letter"
+        >
+          o
+        </text>
+      </svg>
     </>
   );
 }
@@ -62,92 +92,85 @@ function WordList() {
             data-testid="touch-button"
           >
             <div className="sb-wordlist-summary">You have found 24 words</div>
-            <div className="sb-toggle-expand">
-              <span className="sb-toggle-icon"></span>
-            </div>
           </div>
         </div>
         <div className="sb-wordlist-list">
-          <div class="sb-wordlist-window">
-            <div class="sb-wordlist-pag">
-              <div class="sb-wordlist-scroll-anchor"></div>
-              <ul class="sb-wordlist-items-pag">
-                <li>
-                  <span class="sb-anagram">detox</span>
-                </li>
-                <li>
-                  <span class="sb-anagram">detoxed</span>
-                </li>
-                <li>
-                  <span class="sb-anagram">diode</span>
-                </li>
-                <li>
-                  <span class="sb-anagram">ditto</span>
-                </li>
-                <li>
-                  <span class="sb-anagram">dodo</span>
-                </li>
-                <li>
-                  <span class="sb-anagram">doff</span>
-                </li>
-                <li>
-                  <span class="sb-anagram">doffed</span>
-                </li>
-                <li>
-                  <span class="sb-anagram">dote</span>
-                </li>
-                <li>
-                  <span class="sb-anagram">doted</span>
-                </li>
-                <li>
-                  <span class="sb-anagram">dotted</span>
-                </li>
-                <li>
-                  <span class="sb-anagram">doxed</span>
-                </li>
-                <li>
-                  <span class="sb-anagram">doxxed</span>
-                </li>
-                <li>
-                  <span class="sb-anagram">food</span>
-                </li>
-                <li>
-                  <span class="sb-anagram">foodie</span>
-                </li>
-                <li>
-                  <span class="sb-anagram">foot</span>
-                </li>
-                <li>
-                  <span class="sb-anagram">footed</span>
-                </li>
-                <li>
-                  <span class="sb-anagram">footie</span>
-                </li>
-                <li>
-                  <span class="sb-anagram">foxed</span>
-                </li>
-                <li>
-                  <span class="sb-anagram">idiot</span>
-                </li>
-                <li>
-                  <span class="sb-anagram">offed</span>
-                </li>
-                <li>
-                  <span class="sb-anagram">toed</span>
-                </li>
-                <li>
-                  <span class="sb-anagram">toffee</span>
-                </li>
-                <li>
-                  <span class="sb-anagram">toot</span>
-                </li>
-                <li>
-                  <span class="sb-anagram">tooted</span>
-                </li>
-              </ul>
-            </div>
-            <div class="sb-kebob"></div>
-          </div>
+          <div className="sb-wordlist-scroll-anchor"></div>
+          <ul className="sb-wordlist-items-pag">
+            <li>
+              <span className="sb-anagram">detox</span>
+            </li>
+            <li>
+              <span className="sb-anagram">detoxed</span>
+            </li>
+            <li>
+              <span className="sb-anagram">diode</span>
+            </li>
+            <li>
+              <span className="sb-anagram">ditto</span>
+            </li>
+            <li>
+              <span className="sb-anagram">dodo</span>
+            </li>
+            <li>
+              <span className="sb-anagram">doff</span>
+            </li>
+            <li>
+              <span className="sb-anagram">doffed</span>
+            </li>
+            <li>
+              <span className="sb-anagram">dote</span>
+            </li>
+            <li>
+              <span className="sb-anagram">doted</span>
+            </li>
+            <li>
+              <span className="sb-anagram">dotted</span>
+            </li>
+            <li>
+              <span className="sb-anagram">doxed</span>
+            </li>
+            <li>
+              <span className="sb-anagram">doxxed</span>
+            </li>
+            <li>
+              <span className="sb-anagram">food</span>
+            </li>
+            <li>
+              <span className="sb-anagram">foodie</span>
+            </li>
+            <li>
+              <span className="sb-anagram">foot</span>
+            </li>
+            <li>
+              <span className="sb-anagram">footed</span>
+            </li>
+            <li>
+              <span className="sb-anagram">footie</span>
+            </li>
+            <li>
+              <span className="sb-anagram">foxed</span>
+            </li>
+            <li>
+              <span className="sb-anagram">idiot</span>
+            </li>
+            <li>
+              <span className="sb-anagram">offed</span>
+            </li>
+            <li>
+              <span className="sb-anagram">toed</span>
+            </li>
+            <li>
+              <span className="sb-anagram">toffee</span>
+            </li>
+            <li>
+              <span className="sb-anagram">toot</span>
+            </li>
+            <li>
+              <span className="sb-anagram">tooted</span>
+            </li>
+          </ul>
+          <div className="sb-kebob"></div>
         </div>
       </div>
     </div>
