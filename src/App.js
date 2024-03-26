@@ -23,7 +23,7 @@ function SpellingBee({ allWords }) {
     null,
     null,
     null,
-    null
+    null,
   ]);
   const [words, setWords] = useState([]);
 
@@ -34,11 +34,17 @@ function SpellingBee({ allWords }) {
     setLetters(newLetters);
   };
 
+  const generateRegex = (letters, centerLetter) => {
+    const pattern = `\\b[${letters}]*${centerLetter}[${letters}]*\\b`;
+    return new RegExp(pattern, "i");
+  };
+
   const handleSolve = () => {
-    const r = new RegExp(letters.join("").toLowerCase(), "gi");
-    const validWords = allWords.filter(() => r).filter((w) => w.length > 3);
+    const regex = generateRegex(letters.join(""), letters[6]);
+    const validWords = allWords
+      .filter((w) => w.match(regex))
+      .filter((w) => w.length > 3);
     setWords(validWords);
-    alert(validWords);
   };
 
   return (
@@ -49,7 +55,7 @@ function SpellingBee({ allWords }) {
           handleLetterUpdate={handleLetterUpdate}
           handleSolve={handleSolve}
         ></Hive>
-        <WordList></WordList>
+        <WordList words={words}></WordList>
       </div>
     </>
   );
@@ -58,8 +64,6 @@ function SpellingBee({ allWords }) {
 function Hive({ letters, handleLetterUpdate, handleSolve }) {
   const cells = [];
   for (let i = 0; i < 7; i++) {
-    // note: we are adding a key prop here to allow react to uniquely identify each
-    // element in this array. see: https://reactjs.org/docs/lists-and-keys.html
     cells.push(<HiveCell index={i} handleLetterUpdate={handleLetterUpdate} />);
   }
 
@@ -118,87 +122,24 @@ function HiveCell({ handleLetterUpdate, index }) {
   );
 }
 
-function WordList() {
+function WordList({ words }) {
+  const wordList = words.map((word, i) => {
+    return (
+      <li>
+        <span className="sb-anagram" key={i}>
+          {word}
+        </span>
+      </li>
+    );
+  });
+
   return (
     <div className="sb-status-box">
       <div className="sb-wordlist-box">
         <div className="sb-wordlist-heading-wrap sb-touch-button">
           <div className="sb-wordlist-summary">You have found 24 words</div>
         </div>
-        <ul className="sb-wordlist-items-pag">
-          <li>
-            <span className="sb-anagram">detox</span>
-          </li>
-          <li>
-            <span className="sb-anagram">detoxed</span>
-          </li>
-          <li>
-            <span className="sb-anagram">diode</span>
-          </li>
-          <li>
-            <span className="sb-anagram">ditto</span>
-          </li>
-          <li>
-            <span className="sb-anagram">dodo</span>
-          </li>
-          <li>
-            <span className="sb-anagram">doff</span>
-          </li>
-          <li>
-            <span className="sb-anagram">doffed</span>
-          </li>
-          <li>
-            <span className="sb-anagram">dote</span>
-          </li>
-          <li>
-            <span className="sb-anagram">doted</span>
-          </li>
-          <li>
-            <span className="sb-anagram">dotted</span>
-          </li>
-          <li>
-            <span className="sb-anagram">doxed</span>
-          </li>
-          <li>
-            <span className="sb-anagram">doxxed</span>
-          </li>
-          <li>
-            <span className="sb-anagram">food</span>
-          </li>
-          <li>
-            <span className="sb-anagram">foodie</span>
-          </li>
-          <li>
-            <span className="sb-anagram">foot</span>
-          </li>
-          <li>
-            <span className="sb-anagram">footed</span>
-          </li>
-          <li>
-            <span className="sb-anagram">footie</span>
-          </li>
-          <li>
-            <span className="sb-anagram">foxed</span>
-          </li>
-          <li>
-            <span className="sb-anagram">idiot</span>
-          </li>
-          <li>
-            <span className="sb-anagram">offed</span>
-          </li>
-          <li>
-            <span className="sb-anagram">toed</span>
-          </li>
-          <li>
-            <span className="sb-anagram">toffee</span>
-          </li>
-          <li>
-            <span className="sb-anagram">toot</span>
-          </li>
-          <li>
-            <span className="sb-anagram">tooted</span>
-          </li>
-        </ul>
+        <ul className="sb-wordlist-items-pag">{wordList}</ul>
         <div className="sb-kebob"></div>
       </div>
     </div>

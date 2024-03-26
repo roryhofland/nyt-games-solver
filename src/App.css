@@ -110,12 +110,13 @@
   color: #333;
   border: 1px solid #999999;
   border-radius: 2.5em;
+  cursor: pointer;
 }
 
 .hive-action.invalid {
   border: 1px solid #c9c9c9;
   color: #666666;
-  cursor:not-allowed;
+  pointer-events: none;
 }
 
 .hive-action:not(.invalid):hover {
