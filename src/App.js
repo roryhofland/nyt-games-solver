@@ -6,11 +6,27 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">lala</header>
+      <header className="App-header">🐝 Spelling Bee Solver 🐝</header>
       <main className="App-main">
         <SpellingBee allWords={allWords}></SpellingBee>
       </main>
-      <footer className="App-footer"></footer>
+      <footer className="App-footer">
+        <a
+          className="footer-link"
+          href="https://github.com/roryhofland/nyt-games-solver"
+          target="_blank"
+        >
+          github
+        </a>
+        |
+        <a
+          className="footer-link"
+          href="https://www.nytimes.com/puzzles/spelling-bee"
+          target="_blank"
+        >
+          nyt spelling bee
+        </a>
+      </footer>
     </div>
   );
 }
@@ -23,7 +39,7 @@ function SpellingBee({ allWords }) {
     null,
     null,
     null,
-    null,
+    null
   ]);
   const [words, setWords] = useState([]);
 
@@ -61,10 +77,20 @@ function SpellingBee({ allWords }) {
   );
 }
 
+const jumpCell = (e) => {
+  next = e.nextElementSibling;
+};
+
 function Hive({ letters, handleLetterUpdate, handleSolve }) {
   const cells = [];
   for (let i = 0; i < 7; i++) {
-    cells.push(<HiveCell index={i} handleLetterUpdate={handleLetterUpdate} />);
+    cells.push(
+      <HiveCell
+        index={i}
+        handleLetterUpdate={handleLetterUpdate}
+        onKeyUp={(e) => jumpCell(e)}
+      />
+    );
   }
 
   const validInput = () => {
@@ -123,12 +149,10 @@ function HiveCell({ handleLetterUpdate, index }) {
 }
 
 function WordList({ words }) {
-  const wordList = words.map((word, i) => {
+  const wordList = words.sort().map((word, i) => {
     return (
-      <li>
-        <span className="sb-anagram" key={i}>
-          {word}
-        </span>
+      <li className="sb-word">
+        <span key={i}>{word}</span>
       </li>
     );
   });
@@ -137,7 +161,11 @@ function WordList({ words }) {
     <div className="sb-status-box">
       <div className="sb-wordlist-box">
         <div className="sb-wordlist-heading-wrap sb-touch-button">
-          <div className="sb-wordlist-summary">You have found 24 words</div>
+          <div className="sb-wordlist-summary">
+            {wordList.length
+              ? `Found ${wordList.length} words.`
+              : "Hit solve to generate words."}
+          </div>
         </div>
         <ul className="sb-wordlist-items-pag">{wordList}</ul>
         <div className="sb-kebob"></div>

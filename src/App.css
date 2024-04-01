@@ -269,14 +269,14 @@
   align-content: flex-start;
   padding-left: 20px;
   height: 80%;
+  overflow-x: scroll;
 }
 ol, ul {
   list-style: none;
 }
 
-
-
-.sb-anagram {
+.sb-word {
+  width: 25%;
   text-transform:uppercase;
   font-weight: 500;
   margin-right:20px;
@@ -285,6 +285,8 @@ ol, ul {
     font-weight: inherit;
     font-size: inherit;
   vertical-align: baseline;
+  border-bottom: 1px solid rgb(208, 208, 208);
+  padding-right: 10;
 }
 
 @media (min-width: 768px) {
@@ -331,9 +333,15 @@ ol, ul {
   background-color: #282c34;
   min-height: 10vh;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: calc(10px + 1vmin);
   color: white;
+}
+
+.footer-link {
+  margin: 0 10px;
+  color: white;
+  text-decoration: underline;
 }
