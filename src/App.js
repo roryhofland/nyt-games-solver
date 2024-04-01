@@ -15,6 +15,7 @@ function App() {
           className="footer-link"
           href="https://github.com/roryhofland/nyt-games-solver"
           target="_blank"
+          rel="noreferrer"
         >
           github
         </a>
@@ -23,6 +24,7 @@ function App() {
           className="footer-link"
           href="https://www.nytimes.com/puzzles/spelling-bee"
           target="_blank"
+          rel="noreferrer"
         >
           nyt spelling bee
         </a>
@@ -39,7 +41,7 @@ function SpellingBee({ allWords }) {
     null,
     null,
     null,
-    null
+    null,
   ]);
   const [words, setWords] = useState([]);
 
@@ -78,7 +80,9 @@ function SpellingBee({ allWords }) {
 }
 
 const jumpCell = (e) => {
-  next = e.nextElementSibling;
+  const current = parseInt(e.target.id.slice(-1));
+  const next = document.getElementById(`hive-cell-${(current + 1) % 7}`);
+  next.focus();
 };
 
 function Hive({ letters, handleLetterUpdate, handleSolve }) {
@@ -86,9 +90,10 @@ function Hive({ letters, handleLetterUpdate, handleSolve }) {
   for (let i = 0; i < 7; i++) {
     cells.push(
       <HiveCell
+        key={i}
         index={i}
         handleLetterUpdate={handleLetterUpdate}
-        onKeyUp={(e) => jumpCell(e)}
+        jumpCell={jumpCell}
       />
     );
   }
@@ -114,7 +119,7 @@ function Hive({ letters, handleLetterUpdate, handleSolve }) {
   );
 }
 
-function HiveCell({ handleLetterUpdate, index }) {
+function HiveCell({ handleLetterUpdate, jumpCell, index }) {
   return (
     <>
       <svg className="hive-cell outer" viewBox="0 0 120 103.92304845413263">
@@ -139,7 +144,10 @@ function HiveCell({ handleLetterUpdate, index }) {
               type="text"
               maxLength="1"
               placeholder="t"
+              id={`hive-cell-${index.toString()}`}
               onInput={(e) => handleLetterUpdate(index, e.target.value)}
+              onKeyUp={jumpCell}
+              onFocus={(e) => e.target.select()}
             />
           </div>
         </foreignObject>

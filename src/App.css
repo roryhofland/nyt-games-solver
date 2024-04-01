@@ -308,14 +308,13 @@ ol, ul {
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #e1c407;
   min-height: 10vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
 }
 
 .App-main {
@@ -330,18 +329,16 @@ ol, ul {
 }
 
 .App-footer {
-  background-color: #282c34;
+  background-color: #e1c407;
   min-height: 10vh;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 1vmin);
-  color: white;
 }
 
 .footer-link {
   margin: 0 10px;
-  color: white;
   text-decoration: underline;
 }
