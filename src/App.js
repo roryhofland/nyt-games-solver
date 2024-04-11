@@ -41,9 +41,10 @@ function SpellingBee({ allWords }) {
     null,
     null,
     null,
-    null,
+    null
   ]);
   const [words, setWords] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleLetterUpdate = (index, newLetter) => {
     const newLetters = letters.map((l, i) => {
@@ -58,11 +59,26 @@ function SpellingBee({ allWords }) {
   };
 
   const handleSolve = () => {
+    setLoading(true);
     const regex = generateRegex(letters.join(""), letters[6]);
     const validWords = allWords
       .filter((w) => w.match(regex))
       .filter((w) => w.length > 3);
     setWords(validWords);
+    setTimeout(() => {
+      // After the operation is completed, set loading to false
+      setLoading(false);
+      // Callback function can be called here
+    }, 2000);
+  };
+
+  const handleClear = () => {
+    setLetters([null, null, null, null, null, null, null]);
+    const inputs = document.querySelectorAll("[id^='hive-cell-']");
+    [...inputs].forEach((input) => {
+      console.log(input);
+      input.value = "";
+    });
   };
 
   return (
@@ -72,8 +88,9 @@ function SpellingBee({ allWords }) {
           letters={letters}
           handleLetterUpdate={handleLetterUpdate}
           handleSolve={handleSolve}
+          handleClear={handleClear}
         ></Hive>
-        <WordList words={words}></WordList>
+        <WordList words={words} loading={loading}></WordList>
       </div>
     </>
   );
@@ -82,10 +99,12 @@ function SpellingBee({ allWords }) {
 const jumpCell = (e) => {
   const current = parseInt(e.target.id.slice(-1));
   const next = document.getElementById(`hive-cell-${(current + 1) % 7}`);
-  next.focus();
+  setTimeout(() => {
+    next.focus();
+  }, 25);
 };
 
-function Hive({ letters, handleLetterUpdate, handleSolve }) {
+function Hive({ letters, handleLetterUpdate, handleSolve, handleClear }) {
   const cells = [];
   for (let i = 0; i < 7; i++) {
     cells.push(
@@ -108,12 +127,17 @@ function Hive({ letters, handleLetterUpdate, handleSolve }) {
         <div className="hive-container">
           <div className="hive">{cells}</div>
         </div>
-        <button
-          className={validInput() ? "hive-action" : "hive-action invalid"}
-          onClick={handleSolve}
-        >
-          Solve →
-        </button>
+        <div className="sb-buttons">
+          <button className="hive-action" onClick={handleClear}>
+            Clear
+          </button>
+          <button
+            className={validInput() ? "hive-action" : "hive-action invalid"}
+            onClick={handleSolve}
+          >
+            Solve →
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -143,7 +167,6 @@ function HiveCell({ handleLetterUpdate, jumpCell, index }) {
             <input
               type="text"
               maxLength="1"
-              placeholder="t"
               id={`hive-cell-${index.toString()}`}
               onInput={(e) => handleLetterUpdate(index, e.target.value)}
               onKeyUp={jumpCell}
@@ -156,7 +179,15 @@ function HiveCell({ handleLetterUpdate, jumpCell, index }) {
   );
 }
 
-function WordList({ words }) {
+const Spinner = () => {
+  return (
+    <div className="spinner-container">
+      <div className="spinner"></div>
+    </div>
+  );
+};
+
+function WordList({ words, loading }) {
   const wordList = words.sort().map((word, i) => {
     return (
       <li className="sb-word">
@@ -164,6 +195,14 @@ function WordList({ words }) {
       </li>
     );
   });
+
+  const wordListDisplay = () => {
+    if (false) {
+      return <Spinner />;
+    } else {
+      return <ul className="sb-wordlist-items-pag">{wordList}</ul>;
+    }
+  };
 
   return (
     <div className="sb-status-box">
@@ -175,7 +214,7 @@ function WordList({ words }) {
               : "Hit solve to generate words."}
           </div>
         </div>
-        <ul className="sb-wordlist-items-pag">{wordList}</ul>
+        {wordListDisplay}
         <div className="sb-kebob"></div>
       </div>
     </div>

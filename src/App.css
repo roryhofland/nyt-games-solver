@@ -257,6 +257,11 @@
   transition: all 270ms ease;
 }
 
+.sb-buttons {
+  display: flex;
+  flex-direction: row;
+}
+
 @media (min-width: 768px) {
   .sb-wordlist-items-pag {
     padding: 0 0 24px;
@@ -298,6 +303,28 @@ ol, ul {
 @media (min-width: 768px) {
   .sb-status-box {
     width: 50%;
+  }
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px; /* You can adjust the height and width as needed */
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #333; /* Change color of spinner here */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite; /* Apply rotation animation */
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }
 
