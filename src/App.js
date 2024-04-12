@@ -1,16 +1,30 @@
 import "./App.css";
+import Popup from "reactjs-popup";
 import { useState } from "react";
+import "reactjs-popup/dist/index.css";
 
 function App() {
   const allWords = require("an-array-of-english-words");
 
   return (
     <div className="App">
-      <header className="App-header">🐝 Spelling Bee Solver 🐝</header>
+      <header className="App-header">NYT Spelling Bee Solver</header>
       <main className="App-main">
         <SpellingBee allWords={allWords}></SpellingBee>
       </main>
       <footer className="App-footer">
+        <Popup
+          contentStyle={{ padding: "0px" }}
+          trigger={
+            <a className="footer-link" href="#">
+              about
+            </a>
+          }
+          modal
+        >
+          <About></About>
+        </Popup>
+        |
         <a
           className="footer-link"
           href="https://github.com/roryhofland/nyt-games-solver"
@@ -41,10 +55,11 @@ function SpellingBee({ allWords }) {
     null,
     null,
     null,
-    null
+    null,
   ]);
   const [words, setWords] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [initialSearch, setInitialSearch] = useState(true);
 
   const handleLetterUpdate = (index, newLetter) => {
     const newLetters = letters.map((l, i) => {
@@ -64,12 +79,11 @@ function SpellingBee({ allWords }) {
     const validWords = allWords
       .filter((w) => w.match(regex))
       .filter((w) => w.length > 3);
-    setWords(validWords);
     setTimeout(() => {
-      // After the operation is completed, set loading to false
       setLoading(false);
-      // Callback function can be called here
-    }, 2000);
+      setInitialSearch(false);
+      setWords(validWords);
+    }, 800);
   };
 
   const handleClear = () => {
@@ -90,11 +104,51 @@ function SpellingBee({ allWords }) {
           handleSolve={handleSolve}
           handleClear={handleClear}
         ></Hive>
-        <WordList words={words} loading={loading}></WordList>
+        <WordList
+          words={words}
+          loading={loading}
+          initialSearch={initialSearch}
+        ></WordList>
       </div>
     </>
   );
 }
+
+const About = () => {
+  return (
+    <div className="sb-modal">
+      {" "}
+      <div className="sb-modal-header"> About the solver </div>{" "}
+      <div className="sb-modal-content">
+        {" "}
+        This tool can be used as a reference guide for the{" "}
+        <a
+          href="https://www.nytimes.com/puzzles/spelling-bee"
+          target="_blank"
+          rel="noreferrer"
+        >
+          New York Times Spelling Bee
+        </a>{" "}
+        game. In the game itself, valid words are hand-curated, so this solver
+        will likely generate a superset of answers that contain words not
+        accepted by the game. The solver uses{" "}
+        <a
+          href="https://www.npmjs.com/package/an-array-of-english-words"
+          target="_blank"
+          rel="noreferrer"
+        >
+          an-array-of-english-words
+        </a>{" "}
+        as a solution domain.
+        <br />
+        <br />
+        To use the solver, simply fill all the hive cells with letters. Then hit
+        'solve' to generate a list of words that use only those letters, and
+        contain at least one instance of the center letter.
+      </div>{" "}
+    </div>
+  );
+};
 
 const jumpCell = (e) => {
   const current = parseInt(e.target.id.slice(-1));
@@ -167,6 +221,7 @@ function HiveCell({ handleLetterUpdate, jumpCell, index }) {
             <input
               type="text"
               maxLength="1"
+              placeholder="_"
               id={`hive-cell-${index.toString()}`}
               onInput={(e) => handleLetterUpdate(index, e.target.value)}
               onKeyUp={jumpCell}
@@ -179,15 +234,21 @@ function HiveCell({ handleLetterUpdate, jumpCell, index }) {
   );
 }
 
-const Spinner = () => {
+const Spinner = ({ loading }) => {
   return (
-    <div className="spinner-container">
+    <div
+      className={
+        loading
+          ? "spinner-container fade-component"
+          : "spinner-container fade-component active"
+      }
+    >
       <div className="spinner"></div>
     </div>
   );
 };
 
-function WordList({ words, loading }) {
+function WordList({ words, loading, initialSearch }) {
   const wordList = words.sort().map((word, i) => {
     return (
       <li className="sb-word">
@@ -196,11 +257,13 @@ function WordList({ words, loading }) {
     );
   });
 
-  const wordListDisplay = () => {
-    if (false) {
-      return <Spinner />;
+  const titleCard = () => {
+    if (loading) {
+      return "Searching...";
+    } else if (!initialSearch) {
+      return `Found ${wordList.length} words.`;
     } else {
-      return <ul className="sb-wordlist-items-pag">{wordList}</ul>;
+      return "Hit solve to generate words.";
     }
   };
 
@@ -208,14 +271,12 @@ function WordList({ words, loading }) {
     <div className="sb-status-box">
       <div className="sb-wordlist-box">
         <div className="sb-wordlist-heading-wrap sb-touch-button">
-          <div className="sb-wordlist-summary">
-            {wordList.length
-              ? `Found ${wordList.length} words.`
-              : "Hit solve to generate words."}
-          </div>
+          <div className="sb-wordlist-summary">{titleCard()}</div>
         </div>
-        {wordListDisplay}
-        <div className="sb-kebob"></div>
+        <ul className="sb-wordlist-items-pag">
+          <Spinner loading={loading}></Spinner>
+          {wordList}
+        </ul>
       </div>
     </div>
   );
